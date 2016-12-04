@@ -17,5 +17,3 @@ export const convertData = (input) => {
   return buffer;
 };
 
-const arrayMap = [].map;
-export const bufferToHex = b => arrayMap.call(b, v => zeroPadLeft(v.toString('16'), 2)).join('');
