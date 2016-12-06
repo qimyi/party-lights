@@ -16,4 +16,3 @@ export const convertData = (input) => {
     .forEach((s, i) => buffer.writeUInt8(parseInt(s, 2), i));
   return buffer;
 };
-

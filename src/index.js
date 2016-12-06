@@ -1,5 +1,6 @@
 // Import the interface to Tessel hardware
 import tessel from 'tessel';
+import {parseColor, rgb2grbInt, randomColor} from './colorUtil';
 
 const portA = tessel.port['A'];
 const spi = new portA.SPI({
@@ -38,31 +39,25 @@ function transmitData (hexColor) {
 // Blink!
 // var color = 0;
 setInterval(function () {
-  const color = Math.floor((Math.random()*16777215));
-  const luminosity = 0.20;
-  const elizabeth = 0
-    + Math.round(0x00 * luminosity) * 0x100
-    + Math.round(0x96 * luminosity) * 0x10000
-    + Math.round(0x23 * luminosity);
-
+  const elizabeth = rgb2grbInt(parseColor('#009623'));
 
   // transmitData(g * 0x10000 + r * 0x100 + b);
   transmitData([
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215)),
-    Math.floor((Math.random()*16777215))
+    rgb2grbInt(randomColor()),
+    elizabeth,
+    rgb2grbInt(randomColor()),
+    elizabeth,
+    rgb2grbInt(randomColor()),
+    elizabeth,
+    rgb2grbInt(randomColor()),
+    elizabeth,
+    rgb2grbInt(randomColor()),
+    elizabeth,
+    rgb2grbInt(randomColor()),
+    elizabeth,
+    rgb2grbInt(randomColor()),
+    elizabeth,
+    rgb2grbInt(randomColor()),
+    elizabeth
   ]);
 }, 100);
