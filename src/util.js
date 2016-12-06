@@ -1,3 +1,5 @@
+export const roundFloat = (f, d) => Number(Math.round(f + 'e' + d) + 'e-' + d);
+
 export const zeroPadLeft = (s, n) => s.length < n
   ? Array(n - s.length + 1).join('0') + s
   : s;
