@@ -1,6 +1,7 @@
 // Import the interface to Tessel hardware
 import tessel from 'tessel';
 import {parseColor, rgb2grbInt, randomColor} from './colorUtil';
+import Strand from './Strand';
 
 const portA = tessel.port['A'];
 const spi = new portA.SPI({
@@ -12,6 +13,8 @@ tessel.led[2].on();
 
 const PREAMBLE = Buffer.alloc(9);
 const POSTAMBLE = Buffer.alloc(16);
+
+const strand = new Strand(6);
 
 function convertData (input) {
   const binary = input.toString(2).split('');
@@ -42,22 +45,26 @@ setInterval(function () {
   const elizabeth = rgb2grbInt(parseColor('#009623'));
 
   // transmitData(g * 0x10000 + r * 0x100 + b);
-  transmitData([
-    rgb2grbInt(randomColor()),
-    elizabeth,
-    rgb2grbInt(randomColor()),
-    elizabeth,
-    rgb2grbInt(randomColor()),
-    elizabeth,
-    rgb2grbInt(randomColor()),
-    elizabeth,
-    rgb2grbInt(randomColor()),
-    elizabeth,
-    rgb2grbInt(randomColor()),
-    elizabeth,
-    rgb2grbInt(randomColor()),
-    elizabeth,
-    rgb2grbInt(randomColor()),
-    elizabeth
-  ]);
+
+  // transmitData([
+  //   rgb2grbInt(randomColor()),
+  //   elizabeth,
+  //   rgb2grbInt(randomColor()),
+  //   elizabeth,
+  //   rgb2grbInt(randomColor()),
+  //   elizabeth,
+  //   rgb2grbInt(randomColor()),
+  //   elizabeth
+  // ]);
+
+  strand.setLEDColor(0, '000022');
+  strand.setLEDColor(1, '002222');
+  strand.setLEDColor(2, randomColor());
+  strand.setLEDColor(3, randomColor());
+  strand.setLEDColor(4, randomColor());
+  strand.setLEDColor(5, randomColor());
+
+  strand.update(spi);
+
+
 }, 100);
