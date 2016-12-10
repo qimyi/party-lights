@@ -22,6 +22,10 @@ export default class Strand {
 
   //Todo
   // shift left/right
+  shiftRight() {
+    this.LEDs.pop();
+    this.LEDs.unshift(new LED());
+  }
 
   update(spi) {
     const data = this.LEDs.map(led => convertData(rgb2grbInt([led.red, led.green, led.blue])));

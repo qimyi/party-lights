@@ -57,12 +57,9 @@ setInterval(function () {
   //   elizabeth
   // ]);
 
-  strand.setLEDColor(0, '000022');
-  strand.setLEDColor(1, '002222');
-  strand.setLEDColor(2, randomColor());
-  strand.setLEDColor(3, randomColor());
-  strand.setLEDColor(4, randomColor());
-  strand.setLEDColor(5, randomColor());
+  strand.setLEDColor(0, '000001');
+  strand.setLEDColor(1, '000100');
+  strand.setLEDColor(2, '010000');
 
   strand.update(spi);
 
