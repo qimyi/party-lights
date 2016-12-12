@@ -37,7 +37,7 @@ export default class Strand {
 
     const dataArray = [PREAMBLE].concat(data).concat([POSTAMBLE]);
 
-    spi.transfer((Buffer.concat(dataArray, this.bufferLength)), function (error, dataReceived) {
+    spi.send((Buffer.concat(dataArray, this.bufferLength)), function (error, dataReceived) {
       //console.log('buffer returned by SPI slave:', dataReceived);
     });
   }

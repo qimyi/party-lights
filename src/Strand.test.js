@@ -11,12 +11,12 @@ describe('Strand', () => {
     const strand = new Strand(5);
 
     const mockSpi = {
-      transfer: sinon.stub()
+      send: sinon.stub()
     };
 
     strand.update(mockSpi);
 
-    expect(mockSpi.transfer).to.have.been.calledOnce;
+    expect(mockSpi.send).to.have.been.calledOnce;
   });
 
   it('should shift all leds to the right', () => {
