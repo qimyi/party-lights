@@ -25,16 +25,19 @@ const getColor = () => {
   return rgb;
 };
 
-const strand = new Strand(24);
-strand.setLEDColor(0, getColor());
-
 // Blink!
-let counter = 0;
+
+const strand = new Strand(24);
+let v = 1;
+let x = 0;
+
+strand.setLEDColor(0, [255, 0, 0]);
 setInterval(function () {
   strand.update(spi);
-  strand.shiftRight();
-  counter++;
-  // if (counter % 4 === 0) {
-    strand.setLEDColor(0, getColor());
-  // }
+  if (x + v > strand.nLED - 1) v = -1;
+  else if (x + v < 0) v = 1;
+
+  x += v;
+  if (v > 0) strand.shiftRight();
+  else if (v < 0) strand.shiftLeft();
 }, 20);

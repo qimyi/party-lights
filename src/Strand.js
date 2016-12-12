@@ -22,6 +22,11 @@ export default class Strand {
 
   //Todo
   // shift left/right
+  shiftLeft() {
+    this.LEDs.shift();
+    this.LEDs.push(new LED());
+  }
+
   shiftRight() {
     this.LEDs.pop();
     this.LEDs.unshift(new LED());
