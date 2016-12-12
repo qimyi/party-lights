@@ -1,6 +1,6 @@
 import Strand from './Strand';
 
-describe.only('Strand', () => {
+describe('Strand', () => {
   it('should initialize a strand of LEDs', () => {
     const strand = new Strand(5);
 
