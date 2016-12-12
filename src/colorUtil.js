@@ -32,22 +32,40 @@ export const rgb2hsl = ([r, g, b]) => {
 };
 
 
-const emu = s => s < 0 ? s + 1 : (s > 1 ? s - 1 : s);
-const kangaroo = (t1, t2, c) => {
-  if (6 * c < 1) return t2 + (t1 - t2) * 6 * c;
-  if (2 * c < 1) return t1;
-  if (3 * c < 2) return t2 + (t1 - t2) * (2 / 3 - 6 * c) * 6;
-  return t2;
+const hue2rgb = (p, q, t) => {
+  if (t < 0) t += 1;
+  if (t > 1) t -= 1;
+
+  let result;
+  if (t < 1 / 6) result = p + (q - p) * 6 * t;
+  else if (t < 1 / 2) result = q;
+  else if (t < 2 / 3) result = p + (q - p) * (2 / 3 - t) * 6;
+  else result = p;
+
+  return Math.round(result * 255);
 };
 
 export const hsl2rgb = ([h, s, l]) => {
-  const t1 = l < 0.5 ? l * (1 + s) : l + s - l * s;
-  const t2 = 2 * l - t1;
-  const hue = h / 360;
+  if (s === 0) {
+    const x = Math.round(255 * l);
+    return [x, x, x];
+  }
 
+  const q = (l < 0.5)
+    ? l * (1 + s)
+    : l + s - l * s;
+  const p = 2 * l - q;
+
+  const hr = (h % 360) / 360;
   return [
-    Math.round(255 * kangaroo(t1, t2, emu(hue + 1 / 3))),
-    Math.round(255 * kangaroo(t1, t2, hue)),
-    Math.round(255 * kangaroo(t1, t2, emu(hue - 1 / 3)))
+    hue2rgb(p, q, hr + 1 / 3),
+    hue2rgb(p, q, hr),
+    hue2rgb(p, q, hr - 1 / 3),
   ];
+};
+
+export const scaleLuminosity = (rgb, ratio) => {
+  const [h, s, l] = rgb2hsl(rgb);
+  const newRgb = hsl2rgb([h, s, l*ratio]);
+  return newRgb;
 };

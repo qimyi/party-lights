@@ -8,6 +8,12 @@ export default class LED {
   }
 
   setRGB(r, g, b) {
+    if (
+      r > 255 || r < 0 ||
+      g > 255 || g < 0 ||
+      b > 255 || b < 0
+    ) throw new Error('Color out of range', [r, g, b]);
+
     this.red = r;
     this.green = g;
     this.blue = b;
