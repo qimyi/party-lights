@@ -62,36 +62,3 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log('Server listening on: http://localhost:%s', PORT);
 });
-
-////////////////////////////////////////////////////////////////////////////////
-
-// Import the interface to Tessel hardware
-import tessel from 'tessel';
-import {scaleLuminosity} from './colorUtil';
-import Strand from './Strand';
-
-const portA = tessel.port['A'];
-const spi = new portA.SPI({
-  clockSpeed: 2400000 // 4MHz
-});
-
-// Turn one of the LEDs on to start.
-tessel.led[2].on();
-
-const redGreen = (t) => 60 * (1 + Math.sin(0.628318531 * t));
-const satWave = (t) => (1 + Math.sin(t * Math.PI / 10))/2;
-
-let t = 0;
-const getColor = () => color;
-
-const strand = new Strand(24);
-
-strand.setLEDColor(0, getColor());
-setInterval(function () {
-  strand.shiftRight();
-  strand.setLEDColor(0, getColor());
-  strand.update(spi);
-}, 20);
-
-
-////////////////////////////////////////////////////////////////////////////////
