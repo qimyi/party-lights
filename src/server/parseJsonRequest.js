@@ -1,4 +1,4 @@
-export default request => new Promise((res, rej) => {
+export default (request, options = {}) => new Promise((res, rej) => {
   const bufferSize = 1024;
   const s = Buffer.alloc(bufferSize);
   let offset = 0;
@@ -10,7 +10,6 @@ export default request => new Promise((res, rej) => {
   request.on('data', data => {
     const stringData = data.toString();
     if (offset + stringData.length > bufferSize) {
-      res.end(JSON.stringify({error: 'Input data too long'}));
       rej(new Error('Input data too long'));
     } else {
       s.write(stringData, offset);
