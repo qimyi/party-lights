@@ -19,6 +19,7 @@ const stack = [
   {url: '/', method: 'GET', handler: serveStatic('static/index.html')},
   {url: '/main.css', method: 'GET', handler: serveStatic('static/main.css')},
   {url: '/main.js', method: 'GET', handler: serveStatic('../client/main.js')},
+  {url: '/jscolor.js', method: 'GET', handler: serveStatic('../client/jscolor.min.js')},
   require('./api/setColor')
 ];
 
