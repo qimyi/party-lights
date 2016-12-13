@@ -5,4 +5,5 @@
 # You DO NOT need to list node_modules or package.json
 # For more information, visit: https://tessel.io/docs/cli#usage
 
-index.dist.js
+dist/client/**/*
+dist/server/**/*

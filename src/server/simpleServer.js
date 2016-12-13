@@ -3,6 +3,7 @@ import http from 'http';
 import path from 'path';
 import fs from 'fs';
 import sendResponse from './sendResponse';
+import lights from './lights';
 
 const PORT = 1982;
 
@@ -39,5 +40,6 @@ const server = http.createServer((request, response) => {
 });
 
 server.listen(PORT, () => {
+  lights.init();
   console.log('Server listening on: http://localhost:%s', PORT);
 });
