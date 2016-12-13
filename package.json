@@ -12,7 +12,9 @@
   },
   "repository": "https://github.com/qimyi/party-lights",
   "keywords": [
-    "Tessel"
+    "Tessel",
+    "Neopixel",
+    "WS2812B"
   ],
   "license": "MIT",
   "dependencies": {
