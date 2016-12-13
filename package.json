@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-file index.dist.js",
-    "build.dist": "babel -d ./dist --ignore *.test.js src",
+    "build.dist": "babel -d ./dist --ignore *.test.js --ignore .mocha.js src --copy-files",
     "t2.run": "npm run build.dist && t2 run index.js",
     "t2.push": "npm run build.dist && t2 push index.js",
     "test": "mocha --compilers js:babel-core/register --watch-extensions js src/.mocha.js \"src/**/*.test.js\""

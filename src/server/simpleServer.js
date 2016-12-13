@@ -1,33 +1,40 @@
 import 'babel-polyfill';
 import http from 'http';
-import parseJsonRequest from './parseJsonRequest';
+import path from 'path';
+import fs from 'fs';
+import sendResponse from './sendResponse';
 
 const PORT = 1982;
 
-const send = (res, data = '', statusCode = 200) => {
-  if (typeof data === 'object') {
-    data = JSON.stringify(data);
-  }
-
-  res.writeHead(statusCode, {
-    'Content-Length': Buffer.byteLength(data),
-    'Content-Type': 'application/json; charset=utf-8'
+const serveStatic = (staticPath) => (req, res) => {
+  const filePath = path.resolve(__dirname, staticPath);
+  const fileStream = fs.createReadStream(filePath);
+  fileStream.on('open', (d) => {
+    res.writeHead(200, {'Content-Type': `text/${staticPath.split('.').pop()}`});
+    fileStream.pipe(res);
   });
-  res.end(data);
 };
 
-const server = http.createServer(async (req, res) => {
-  if (req.url === '/api/v1/setColor' && req.method === 'POST') {
-    try {
-      const json = await parseJsonRequest(req)
-      console.log('New color should be: ' + json.color);
-      send(res, {success: true});
-    } catch (error) {
-      send(res, {error: error.message}, 400)
+const stack = [
+  {url: '/', method: 'GET', handler: serveStatic('static/index.html')},
+  {url: '/main.css', method: 'GET', handler: serveStatic('static/main.css')},
+  {url: '/main.js', method: 'GET', handler: serveStatic('../client/main.js')},
+  require('./api/setColor')
+];
+
+const server = http.createServer((request, response) => {
+  let len = stack.length;
+  for (let i = 0; i < len; i++) {
+    let h = stack[i];
+    if (h.method === request.method
+      && h.url === request.url
+      && typeof h.handler === 'function'
+    ) {
+      return h.handler(request, response);
     }
-  } else {
-    send(res, {error: 'Not found'}, 404);
   }
+
+  sendResponse(response, {error: 'Not found'}, 404);
 });
 
 server.listen(PORT, () => {
