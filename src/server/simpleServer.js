@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import http from 'http';
 import path from 'path';
 import fs from 'fs';
+import wsServer from './ws/wsServer';
 import sendResponse from './sendResponse';
 import lights from './lights';
 
@@ -38,6 +39,8 @@ const server = http.createServer((request, response) => {
 
   sendResponse(response, {error: 'Not found'}, 404);
 });
+
+wsServer.start(server);
 
 server.listen(PORT, () => {
   lights.init();

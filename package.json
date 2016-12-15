@@ -19,7 +19,8 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.4.6",
-    "tessel": "^0.3.25"
+    "tessel": "^0.3.25",
+    "websocket": "^1.0.23"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
